@@ -12,10 +12,10 @@ mongoose // DB 연결
   .then(() => {
     console.log("MongoDB Connect.");
 
-    // app.use(express.static("build"));
-    // app.get("/", (req, res) => {
-    //   res.sendFile(__dirname + "/build/index.html");
-    // })
+    app.use(express.static("build"));
+    app.get("/", (req, res) => {
+      res.sendFile(__dirname + "/build/index.html");
+    })
 
     // app.use("/uploads", express.static("uploads")); //url 경로
     app.use(express.json()); //req.body를 json형식으로 변경

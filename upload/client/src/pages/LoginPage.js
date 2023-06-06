@@ -9,12 +9,15 @@ import { useNavigate } from "react-router-dom";
 const Wrap = styled.div`
 	width:100%;
 	max-width:1000px;
+	min-height:calc(100vh - 362px);
+	display:flex;
+	align-items:center;
 	margin:0 auto;
 	padding:0 30px;
 	>div{
 		width:100%;
 		max-width:350px;
-		margin:15vh auto 0;
+		margin:0 auto;
 	}
 	h3{
 		margin-bottom:40px;

@@ -72,6 +72,7 @@ const Notice = styled.div`
 	left:7%;
 	z-index:100;
 	transition:0.3s;
+	backdrop-filter:blur(3px);
 	p{
 		font-size:14px;
 		line-height:1.35;

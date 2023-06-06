@@ -14,12 +14,17 @@ const DetailWrap = styled.div`
 	max-width:100% !important;
 	margin-top:80px;
 	padding:50px 30px;
-	background-color:#efefef;
+	background-color:#e2e2e2;
 	position:relative;
 	h4{
 		margin-bottom:20px;
 		font-size:26px;
 	}
+	@media ${props => props.theme.mobile} {
+		h4{
+			font-size:20px;
+		}
+  }
 `;
 const VideoWrap = styled(Swiper)`
 	div{
@@ -66,7 +71,7 @@ const VideoWrap = styled(Swiper)`
 			}
 		}
 		&-pagination{
-			bottom:18px;
+			bottom:25px;
 			&-bullet{
 				width:8px;
 				height:8px;
@@ -89,6 +94,13 @@ const VideoWrap = styled(Swiper)`
 			}
 		}
   }
+	@media ${props => props.theme.mobile} {
+		div{
+			&.info{
+				font-size:14px;
+			}
+		}
+  }
 `;
 const InfoTab = styled.div`
 	width:300px;
@@ -99,8 +111,9 @@ const InfoTab = styled.div`
 		font-size:26px;
 		padding:8px 5px 5px;
 		border:0;
+		color:#111;
 		background-color:transparent;
-		opacity:0.5;
+		opacity:0.3;
 		transition:0.3s;
 		&:hover{
 			opacity:1;
@@ -126,7 +139,7 @@ const InfoTab = styled.div`
 	>div{
 		width:50%;
 		height:125%;
-		background-color:#fff;
+		background-color:#f0f0f0;
 		border-radius:10px 10px 0 0;
 		transition:0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
 		position:absolute;
@@ -137,11 +150,17 @@ const InfoTab = styled.div`
 	&.on{
 		pointer-events:none;
 	}
+	@media ${props => props.theme.mobile} {
+		width:100%;
+		button{
+			font-size:20px;
+		}
+  }
 `;
 const InfoWrap = styled.div`
 	padding:20px;
 	border-radius:10px;
-	background-color:#fff;
+	background-color:#f0f0f0;
 	ul{
 		li{
 			line-height:1.45;
@@ -169,6 +188,14 @@ const InfoWrap = styled.div`
 			transform:translateY(0);
 		}
 	}
+
+	@media ${props => props.theme.mobile} {
+		ul{
+			li{
+				font-size:14px;
+			}
+		}
+  }
 `;
 
 const DetailInfo = () => {

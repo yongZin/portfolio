@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
 import Nav from "./components/Nav";
+import Foot from "./components/Foot";
 import { AuthContext } from "./context/AuthContext";
 import { ImageContext } from "./context/ImageContext";
 import { useNavigate } from "react-router-dom";
@@ -16,9 +17,9 @@ const GUEST_ID = process.env.REACT_APP_GUEST_ID; //게스트 확인용
 
 const Container = styled.div`
   margin:0 auto;
-  padding:100px 0;
+  padding:100px 0 0;
   @media ${props => props.theme.tablet} {
-		padding:100px 0;
+		padding:100px 0 0;
   }
 `;
 
@@ -83,6 +84,7 @@ const App = () => {
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/" element={<MainPage />} />
       </Routes>
+      <Foot />
     </Container>
   );
 }
