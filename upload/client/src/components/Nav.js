@@ -62,15 +62,16 @@ const Content = styled.div`
   }
 `
 const Notice = styled.div`
-	width:86%;
+	min-width:45%;
 	padding:15px 20px;
 	text-align:center;
 	border-radius:8px;
-	background-color:rgba(0,0,0,0.4);
+	background-color:rgba(0,0,0,0.6);
 	position:fixed;
 	bottom:5%;
-	left:7%;
+	left:50%;
 	z-index:100;
+	transform:translateX(-50%);
 	transition:0.3s;
 	backdrop-filter:blur(3px);
 	p{
@@ -85,7 +86,7 @@ const Notice = styled.div`
 		font-size:0;
 		border-radius:50%;
 		border:0;
-		background-color:rgba(180,180,180,0.4);
+		background-color:rgba(0,0,0,0.4);
 		position:absolute;
 		top:-20px;
 		right:-15px;
@@ -93,12 +94,12 @@ const Notice = styled.div`
 		&::before,
 		&::after{
 			content:"";
-			width:66%;
+			width:10px;
 			height:2px;
 			background-color:#fff;
 			position:absolute;
 			top:9px;
-			left:17%;
+			left:5px;
 			transform:rotate(45deg);
 		}
 		&:after{
@@ -124,6 +125,7 @@ const Notice = styled.div`
 const Nav = () => {
 	const [me, setMe] = useContext(AuthContext);
 	const [notice, setNotice] = useState(false);
+	const [close, setClose] = useState(false);
 
 	const logoutHandler = async () => {
 		try {
@@ -144,6 +146,13 @@ const Nav = () => {
 
 	return(
 		<>
+			{!me && !close &&
+				<Notice>
+					<p>관리자 권한으로 로그인시 상품(이미지) 업로드가 가능합니다.</p>
+					<button onClick={() => setClose(!close)}>닫기</button>
+				</Notice>
+			}
+
 			{notice &&
 				<Notice>
 					<p>새로고침 및 브라우저 종료시 업로드한 데이터는 사라지며, 삭제 기능은 현재 아이디로 업로드한 상품만 가능합니다.</p>
