@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+//메인페이지-상품리스트 및 업로드
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import UploadForm from "../components/UploadForm";
 import Product from "../components/Product";
@@ -45,8 +46,12 @@ const TitleBold = styled.h3`
   }
 `;
 
-  const MainPage = () =>{
+  const MainPage = ({ setLocate }) =>{
     const [me] = useContext(AuthContext);
+
+    useEffect(() => { //관리자권한 로그인 유도
+      setLocate({})
+    }, [setLocate]);
     
 	return(
 		<Wrap>

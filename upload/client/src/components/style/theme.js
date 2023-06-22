@@ -1,3 +1,4 @@
+//미디어쿼리 믹스인
 const size = {
 	mobile_xs:"400px",
   mobile:"600px",

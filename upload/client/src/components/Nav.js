@@ -1,3 +1,4 @@
+//헤더 컴포넌트
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -47,6 +48,9 @@ const Content = styled.div`
 		background:url(${logo}) no-repeat;
 		background-size:cover;
 	}
+	>div{
+		position:relative;
+	}
 	@media ${props => props.theme.tablet} {
 		padding:15px 20px;
   }
@@ -62,18 +66,40 @@ const Content = styled.div`
   }
 `
 const Notice = styled.div`
-	min-width:45%;
 	padding:15px 20px;
 	text-align:center;
 	border-radius:8px;
 	background-color:rgba(0,0,0,0.6);
-	position:fixed;
-	bottom:5%;
-	left:50%;
-	z-index:100;
-	transform:translateX(-50%);
-	transition:0.3s;
 	backdrop-filter:blur(3px);
+	z-index:100;
+	&:not(.empty){
+		min-width:45%;
+		position:fixed;
+		bottom:5%;
+		left:50%;
+		transition:0.3s;
+		transform:translateX(-50%);
+	}
+	&.empty{ //로그인 정보가 없는 경우
+		width:330px;
+		position:absolute;
+		top:calc(100% + 20px);
+		right:0;
+		transition:1s;
+		&::before{
+			content:"";
+			border-right:8px solid transparent;
+			border-left:8px solid transparent;
+			border-bottom:10px solid rgba(0,0,0,0.6);
+			position:absolute;
+			top:-10px;
+			right:60px;
+		}
+		button{
+			top:-10px;
+			right:-20px;
+		}
+	}
 	p{
 		font-size:14px;
 		line-height:1.35;
@@ -113,16 +139,18 @@ const Notice = styled.div`
 		}
   }
 	@media ${props => props.theme.mobile_xs} {
-		width:92%;
-		left:4%;
-		button{
-			top:-24px;
-			right:-6px;
+		&:not(.empty){
+			width:92%;
+			left:4%;
+			button{
+				top:-24px;
+				right:-6px;
+			}
 		}
   }
 `;
 
-const Nav = () => {
+const Nav = ({ locate }) => {
 	const [me, setMe] = useContext(AuthContext);
 	const [notice, setNotice] = useState(false);
 	const [close, setClose] = useState(false);
@@ -143,38 +171,42 @@ const Nav = () => {
 		if(me && (me.userId) === GUEST_ID) setNotice(true);
 		else setNotice(false);
 	}, [me])
+	
 
 	return(
 		<>
-			{!me && !close &&
-				<Notice>
-					<p>관리자 권한으로 로그인시 상품(이미지) 업로드가 가능합니다.</p>
-					<button onClick={() => setClose(!close)}>닫기</button>
-				</Notice>
-			}
-
 			{notice &&
 				<Notice>
 					<p>새로고침 및 브라우저 종료시 업로드한 데이터는 사라지며, 삭제 기능은 현재 아이디로 업로드한 상품만 가능합니다.</p>
 					<button onClick={() => setNotice(!notice)}>닫기</button>
 				</Notice>
-			}
+			} {/* 관리자권한으로 로그인시 기능제한 안내문구 */}
 
 			<Wrap>
 				<Content>
 					<Link to="/">홈</Link>
-
+				
 					{me ? (
 						<span onClick={logoutHandler}>
 							LOGOUT<span className="user">({me.name})</span>
 						</span>
 					) : (
+
 						<div>
 							<Link to="/auth/login">LOGIN</Link>
 							<Link to="/auth/register">JOIN</Link>
+
+							{!close &&
+								<Notice className="empty" style={locate}>
+									<p>관리자권한으로 통해 다양한 기능을 사용해보세요!</p>
+									<button onClick={() => setClose(!close)}>닫기</button>
+								</Notice>
+							} {/* 로그인정보가 없을 경우 로그인 유도 */}
 						</div>
-					)
-					}
+
+					)} {/* 로그인유무에 따라 버튼변경 */}
+
+					
 				</Content>
 			</Wrap>
 		</>

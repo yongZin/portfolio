@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify"; //alert 라이브러리
 import "react-toastify/dist/ReactToastify.css";
@@ -26,9 +26,10 @@ const Container = styled.div`
 const App = () => {
   const navigate = useNavigate();
   const [me] = useContext(AuthContext);
-  const {images, setImages} = useContext(ImageContext);
-	const [confirm, setConfirm] = useState(false);
-  const [guestImg, setGuestImg] = useState([]);
+  const {images, setImages} = useContext(ImageContext); //업로드된 이미지 목록
+	const [confirm, setConfirm] = useState(false); //로그인 정보에서 권한 확인
+  const [guestImg, setGuestImg] = useState([]); //관리자권한으로 업로드한 이미지 목록
+  const [locate, setLocate] = useState({}); //관리자권한 로그인 유도
 
   useEffect(() => {
 		setTimeout(() => {
@@ -77,12 +78,12 @@ const App = () => {
   return (
     <Container>
       <ToastContainer />
-      <Nav />
+      <Nav locate={locate} />
       <Routes>
-        <Route path="/images/:imageId" element={<DetailPage />} />
-        <Route path="/auth/register" element={<RegisterPage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/" element={<MainPage />} />
+        <Route path="/images/:imageId" element={<DetailPage setLocate={setLocate} />} />
+        <Route path="/auth/register" element={<RegisterPage setLocate={setLocate} />} />
+        <Route path="/auth/login" element={<LoginPage setLocate={setLocate} />} />
+        <Route path="/" element={<MainPage setLocate={setLocate} />} />
       </Routes>
       <Foot />
     </Container>

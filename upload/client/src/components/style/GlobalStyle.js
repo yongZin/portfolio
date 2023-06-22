@@ -1,3 +1,4 @@
+//모든 페이지에서 사용되는 스타일
 import { createGlobalStyle } from "styled-components";
 import NanumSquareOTF_acL from "../fonts/NanumSquareOTF_acL.woff";
 import NanumSquareOTF_acR from "../fonts/NanumSquareOTF_acR.woff";

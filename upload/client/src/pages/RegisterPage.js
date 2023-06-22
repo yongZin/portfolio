@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+//회원가입 페이지
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import CustomInput from "../components/CustomInput";
@@ -44,7 +45,7 @@ const SubmitBtn = styled.button`
 	}
 `;
 
-const RegisterPage = () =>{
+const RegisterPage = ({ setLocate }) =>{
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -79,6 +80,10 @@ const RegisterPage = () =>{
 			toast.error(err.message)
 		}
 	}
+
+	useEffect(() => { //관리자권한 로그인 유도
+		setLocate({})
+  }, [setLocate]);
 
 	return(
 		<Wrap>

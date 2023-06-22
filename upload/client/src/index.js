@@ -10,7 +10,7 @@ import theme from "./components/style/theme";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  // <React.StrictMode> //useEffect가 두번 호출되는 문제로 주석처리
     <BrowserRouter>
       <AuthProvider>
         <ImageProvider>

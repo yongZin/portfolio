@@ -96,7 +96,7 @@ const DelBth = styled.div`
 	}
 `;
 
-const Detail = () => {
+const Detail = ({ setLocate }) => {
 	const navigate = useNavigate();
 	const [hasLiked, setHasLiked] = useState(false); //좋아요 유무
 	const [me] = useContext(AuthContext); //유저정보 가져오기
@@ -105,6 +105,10 @@ const Detail = () => {
 	const [error, setError] = useState(false);
 	const [image, setImage] = useState();
 	const [guest, setGuest] = useState();
+
+	useEffect(() => { //관리자권한 로그인 유도
+		setLocate({})
+  }, [setLocate]);
 
 	useEffect(() => { //images 배열이 바뀔때 마다 이미지 가져오기
 		const img = images.find((image) => image._id === imageId); //이미지 가져오기

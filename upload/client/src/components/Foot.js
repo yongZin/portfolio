@@ -1,3 +1,4 @@
+//푸터 컴포넌트
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -84,7 +85,7 @@ const Nav = () => {
 						<Link title="깃허브" to="https://github.com/yongZin/portfolio" target="__balnk">
 							<AiOutlineGithub />
 						</Link>
-						<Link title="노션" to="https://nice-93.notion.site/nice-93/3cbf9dc9fbdc4d549ecd7cb282ae8053" target="__balnk">
+						<Link title="노션" to="https://nice-93.notion.site/UX-9bba5aa0e8d446ac9044fe18263f62b3?pvs=4" target="__balnk">
 							<SiNotion />
 						</Link>
 					</Connect>

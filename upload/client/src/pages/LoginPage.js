@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+//로그인 페이지
+import React, { useContext, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -28,7 +29,6 @@ const Wrap = styled.div`
 		padding:0 20px;
 	}
 `;
-
 const SubmitBtn = styled.button`
 	width:100%;
 	height:48px;
@@ -43,7 +43,6 @@ const SubmitBtn = styled.button`
 		background-color:#555;
 	}
 `;
-
 const GuestForm = styled.form`
 	text-align:right;
 	button{
@@ -54,57 +53,26 @@ const GuestForm = styled.form`
 		border-bottom:1px solid #888;
 		background-color:transparent;
 		position:relative;
-		&::before{
-			content:"다양한 기능 사용이 가능합니다.";
-			width:100%;
-			padding:10px 0;
-			line-height:1.3;
-			font-size:13px;
-			font-family:var(--f-reular);
-			letter-spacing:0.4px;
-			word-break:keep-all;
-			border-radius:8px;
-			background-color:#e1e1e1;
-			position:absolute;
-			top:20px;
-			right:0;
-			pointer-events:none;
-			transition:0.3s;
-			opacity:0;
-		}
-		&::after{
-			content:"";
-			border-left:8px solid transparent;
-			border-right:8px solid transparent;
-			border-bottom:8px solid #e1e1e1;
-			position:absolute;
-			top:14px;
-			right:calc(50% - 8px);
-			pointer-events:none;
-			transition:0.3s;
-			opacity:0;
-		}
-		&:hover{
-			&::before{
-				top:32px;
-				opacity:1;
-			}
-			&::after{
-				top:26px;
-				opacity:1;
-			}
-		}
 	}
 `;
 
-
-
-const LoginPage = () => {
+const LoginPage = ({ setLocate }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [, setMe] = useContext(AuthContext);
+	const guestFormRef = useRef(null);
 	const navigate = useNavigate();
-
+	
+	useEffect(() => { //관리자권한 로그인 유도
+    const { top, right } = guestFormRef.current.getBoundingClientRect();
+		setTimeout(() => {
+			setLocate({
+				position: "fixed",
+				top: `${top + 42}px`,
+				right: `${right - 351.5}px`,
+			})
+		}, 300)
+  }, [setLocate]);
 
 	const loginHandler = async (e) => {
 		try {
@@ -134,11 +102,10 @@ const LoginPage = () => {
 		setUsername("guest");
 		setPassword("superguest");
 	}
-
+	
 	return(
 		<Wrap>
 			<div>
-
 				<h3>로그인</h3>
 
 				<form onSubmit={loginHandler}>
@@ -159,7 +126,7 @@ const LoginPage = () => {
 					<SubmitBtn type="submit">로그인</SubmitBtn>
 				</form>
 
-				<GuestForm onSubmit={loginHandler}>
+				<GuestForm ref={guestFormRef} onSubmit={loginHandler}>
 					<button type="submit" onClick={guestHandler}>관리자 권한으로 로그인</button>
 				</GuestForm>
 			</div>

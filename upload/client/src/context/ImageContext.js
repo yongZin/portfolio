@@ -1,3 +1,4 @@
+//이미지 데이터
 import React, { createContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 
