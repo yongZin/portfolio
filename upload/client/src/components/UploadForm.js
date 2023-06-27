@@ -3,8 +3,8 @@ import React, { useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify"; //alert 라이브러리
 import axios from "axios";
-// import ProgressBar from "./ProgressBar";
 import { ImageContext } from "../context/ImageContext";
+// import ProgressBar from "./ProgressBar"; //사용보류
 
 const FileDropper = styled.div`
   min-height:100px;
@@ -18,7 +18,7 @@ const FileDropper = styled.div`
   border:1px dashed #111;
   border-radius:10px;
   background-color:bisque;
-  overflow:hidden;
+  /* overflow:hidden; */
   position:relative;
   transition:0.3s;
   &:hover{
@@ -34,17 +34,16 @@ const FileDropper = styled.div`
     top:0;
     left:0;
   }
-  p{
+  /* p{
     width:100%;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-  }
+  } */
   @media ${props => props.theme.mobile} {
     font-size:14px;
   }
 `;
-
 const ImgPreview = styled.div`
   display:flex;
   justify-content:space-around;
@@ -71,7 +70,6 @@ const ImgPreview = styled.div`
     }
   }
 `;
-
 const Boundary = styled.div`
   position:relative;
   div{
@@ -122,10 +120,10 @@ const Boundary = styled.div`
 `;
 
 const UploadForm = () => {
-  const {setImages} = useContext(ImageContext);
-  const [files, setFiles] = useState(null);
-  const [previews, setPreviews] = useState([]);
-  const [percent, setPercent] = useState(0);
+  const {setImages} = useContext(ImageContext); //이미지 리스트
+  const [files, setFiles] = useState(null); //업로드 파일 리스트
+  const [previews, setPreviews] = useState([]); //업로드할 파일 미리보기
+  const [percent, setPercent] = useState(0); //업로드 현황
   const inputRef = useRef();
 
   const imgHandler = async (e) => {
@@ -250,6 +248,7 @@ const UploadForm = () => {
     previews.length === 0
       ? "이미지 파일 선택하기"
       : "다른 이미지 파일 선택하기"
+      /* 파일명으로 미리보기 */ 
       // previews.map((el) => {
       //   return(
       //     <p key={el.fileName}>{el.fileName}</p>
@@ -259,6 +258,7 @@ const UploadForm = () => {
       //     (previous, current) => previous + `${current.fileName},`,
       //     ""
       //   );
+      /* //파일명으로 미리보기 */ 
 
   return(
     <form onSubmit={onSubmitV2}>

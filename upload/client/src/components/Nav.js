@@ -1,12 +1,11 @@
 //헤더 컴포넌트
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import styled from "styled-components";
 import logo from "./images/logo.svg"
-const GUEST_ID = process.env.REACT_APP_GUEST_ID; //게스트 확인용
 
 const Wrap = styled.div`
 	width:100%;
@@ -65,43 +64,29 @@ const Content = styled.div`
 		}
   }
 `
-const Notice = styled.div`
+const Empty = styled.div`
+	width:280px;
 	padding:15px 20px;
 	text-align:center;
 	border-radius:8px;
 	background-color:rgba(0,0,0,0.6);
 	backdrop-filter:blur(3px);
+	position:absolute;
+	top:calc(100% + 20px);
+	right:0;
+	transition:opacity 0.5s;
 	z-index:100;
-	&:not(.empty){
-		min-width:45%;
-		position:fixed;
-		bottom:5%;
-		left:50%;
-		transition:0.3s;
-		transform:translateX(-50%);
-	}
-	&.empty{ //로그인 정보가 없는 경우
-		width:330px;
+	&::before{
+		content:"";
+		border-right:8px solid transparent;
+		border-left:8px solid transparent;
+		border-bottom:10px solid rgba(0,0,0,0.6);
 		position:absolute;
-		top:calc(100% + 20px);
-		right:0;
-		transition:1s;
-		&::before{
-			content:"";
-			border-right:8px solid transparent;
-			border-left:8px solid transparent;
-			border-bottom:10px solid rgba(0,0,0,0.6);
-			position:absolute;
-			top:-10px;
-			right:60px;
-		}
-		button{
-			top:-10px;
-			right:-20px;
-		}
+		top:-10px;
+		right:60px;
 	}
 	p{
-		font-size:14px;
+		font-size:13px;
 		line-height:1.35;
 		word-break:keep-all;
 		color:#fff;
@@ -114,8 +99,8 @@ const Notice = styled.div`
 		border:0;
 		background-color:rgba(0,0,0,0.4);
 		position:absolute;
-		top:-20px;
-		right:-15px;
+		top:-10px;
+		right:-20px;
 		transition:0.3s;
 		&::before,
 		&::after{
@@ -152,8 +137,12 @@ const Notice = styled.div`
 
 const Nav = ({ locate }) => {
 	const [me, setMe] = useContext(AuthContext);
-	const [notice, setNotice] = useState(false);
 	const [close, setClose] = useState(false);
+
+	useEffect(() => { //로그인정보 권한 찾기
+		if(!me) setClose(false);
+		else setClose(true);
+	}, [me])
 
 	const logoutHandler = async () => {
 		try {
@@ -167,21 +156,8 @@ const Nav = ({ locate }) => {
 		}
 	}
 
-	useEffect(() => {
-		if(me && (me.userId) === GUEST_ID) setNotice(true);
-		else setNotice(false);
-	}, [me])
-	
-
 	return(
 		<>
-			{notice &&
-				<Notice>
-					<p>새로고침 및 브라우저 종료시 업로드한 데이터는 사라지며, 삭제 기능은 현재 아이디로 업로드한 상품만 가능합니다.</p>
-					<button onClick={() => setNotice(!notice)}>닫기</button>
-				</Notice>
-			} {/* 관리자권한으로 로그인시 기능제한 안내문구 */}
-
 			<Wrap>
 				<Content>
 					<Link to="/">홈</Link>
@@ -193,14 +169,18 @@ const Nav = ({ locate }) => {
 					) : (
 
 						<div>
-							<Link to="/auth/login">LOGIN</Link>
+							<Link to="/auth/login" onClick={() => {
+								if(!me) setTimeout(() => {
+									setClose(!close);
+								}, 100);
+							}}>LOGIN</Link>
 							<Link to="/auth/register">JOIN</Link>
 
 							{!close &&
-								<Notice className="empty" style={locate}>
-									<p>관리자권한으로 통해 다양한 기능을 사용해보세요!</p>
+								<Empty style={locate}>
+									<p>관리자권한으로 다양한 기능을 사용해보세요!</p>
 									<button onClick={() => setClose(!close)}>닫기</button>
-								</Notice>
+								</Empty>
 							} {/* 로그인정보가 없을 경우 로그인 유도 */}
 						</div>
 

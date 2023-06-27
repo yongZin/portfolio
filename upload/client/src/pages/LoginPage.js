@@ -65,13 +65,17 @@ const LoginPage = ({ setLocate }) => {
 	
 	useEffect(() => { //관리자권한 로그인 유도
     const { top, right } = guestFormRef.current.getBoundingClientRect();
+
+		setLocate({opacity: 0});
+
 		setTimeout(() => {
 			setLocate({
 				position: "fixed",
 				top: `${top + 42}px`,
 				right: `${right - 351.5}px`,
+				opacity: 1
 			})
-		}, 300)
+		}, 500);
   }, [setLocate]);
 
 	const loginHandler = async (e) => {
