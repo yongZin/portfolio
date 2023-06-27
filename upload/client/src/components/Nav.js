@@ -171,7 +171,7 @@ const Nav = ({ locate }) => {
 						<div>
 							<Link to="/auth/login" onClick={() => {
 								if(!me) setTimeout(() => {
-									setClose(!close);
+									setClose(false);
 								}, 100);
 							}}>LOGIN</Link>
 							<Link to="/auth/register">JOIN</Link>
