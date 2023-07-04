@@ -34,7 +34,7 @@ const ImgCont = styled.div`
 	img{
 		width:50%;
 		max-width:450px;
-		margin-bottom:15px;
+		margin:7px 0;
 	}
 `;
 const LikeBth = styled.div`
@@ -59,6 +59,61 @@ const LikeBth = styled.div`
 		border-color:#999;
 		svg{
 			color:red;
+		}
+	}
+`;
+const Notice = styled.div`
+	width:180px;
+	display:none;
+	padding:15px 20px;
+	text-align:center;
+	border-radius:8px;
+	background-color:rgba(0,0,0,0.6);
+	backdrop-filter:blur(3px);
+	position:absolute;
+	top:40px;
+	right:0;
+	z-index:100;
+	cursor:default;
+	&::before{
+		content:"";
+		border-right:8px solid transparent;
+		border-left:8px solid transparent;
+		border-bottom:10px solid rgba(0,0,0,0.6);
+		position:absolute;
+		top:-10px;
+		right:20px;
+	}
+	p{
+		font-size:13px;
+		line-height:1.35;
+		word-break:keep-all;
+		color:#fff;
+	}
+	button{
+		width:20px;
+		height:20px;
+		font-size:0;
+		border-radius:50%;
+		border:0;
+		background-color:rgba(0,0,0,0.4);
+		position:absolute;
+		top:-10px;
+		left:-20px;
+		transition:0.3s;
+		&::before,
+		&::after{
+			content:"";
+			width:10px;
+			height:2px;
+			background-color:#fff;
+			position:absolute;
+			top:9px;
+			left:5px;
+			transform:rotate(45deg);
+		}
+		&:after{
+			transform:rotate(-45deg);
 		}
 	}
 `;
@@ -94,7 +149,26 @@ const DelBth = styled.div`
 			}
 		}
 	}
+	&.block{
+		border-color:rgba(187, 187, 187, 0.5);
+		cursor:no-drop;
+		&::before{
+			content:"";
+			width:100%;
+			height:100%;
+			background-color:#fff;
+			opacity:0.5;
+			position:absolute;
+			top:0;
+			left:0;
+			z-index:10;
+		}
+		${Notice}{
+			display:block;
+		}
+	}
 `;
+
 
 const Detail = ({ setLocate }) => {
 	const navigate = useNavigate();
@@ -105,7 +179,17 @@ const Detail = ({ setLocate }) => {
 	const [error, setError] = useState(false);
 	const [image, setImage] = useState();
 	const [guest, setGuest] = useState();
+	const [notice, setNotice] = useState(false); //툴팁
 
+  useEffect(() => { //로그인정보 권한 찾기
+		if(me && (me.userId) !== guest) {
+			setTimeout(() => {
+				setNotice(true);
+			}, 100)
+		}
+		else setNotice(false);
+	}, [me, guest]);
+	
 	useEffect(() => { //관리자권한 로그인 유도
 		setLocate({})
   }, [setLocate]);
@@ -186,18 +270,25 @@ const Detail = ({ setLocate }) => {
 				</LikeBth>
 
 				{me && 
-					(
-						(me.userId) === ADMIN_ID
-						|| (((me.userId) === guest) && ((me.userId) === GUEST_ID))
-					) &&
-					<DelBth onClick={deleteHandler}>
+					(((me.userId) === ADMIN_ID) || ((me.userId) === GUEST_ID)) &&
+					<DelBth
+						onClick={(me.userId) === guest ? deleteHandler : null}
+						className={(me.userId) !== guest ? "block" : ""}
+					>
 						<TbTrash />
 						<TbTrashX />
 						<span>삭제</span>
+
+						{notice &&
+							<Notice>
+								<p>임시 관리자로 업로드한 상품만 삭제 가능합니다</p>
+								<button onClick={() => setNotice(!notice)}></button>
+							</Notice>
+						}
 					</DelBth>
 				}
 				{/* 관리자는 모든 이미지 삭제권한 부여 */}
-				{/* 게스트는 본인이 올린 이미지만 삭제권한 부여 */}
+				{/* 게스트는 본인이 올린 이미지만 삭제권한 부여(<DelBth>에 "block" 클래스가 붙으면 삭제버튼 클릭불가능) */}
 			</BthCont>
 
 			<ImgCont>

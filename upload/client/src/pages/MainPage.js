@@ -48,10 +48,10 @@ const TitleBold = styled.h3`
 const Notice = styled.div`
   width:calc(100% - 60px);
   max-width:940px;
-  position:fixed;
+  position:absolute;
   top:130px;
   left:50%;
-  z-index:100;
+  z-index:99;
   transform:translateX(-50%);
   transition:0.3s;
   p{

@@ -131,7 +131,7 @@ const LoginPage = ({ setLocate }) => {
 				</form>
 
 				<GuestForm ref={guestFormRef} onSubmit={loginHandler}>
-					<button type="submit" onClick={guestHandler}>관리자 권한으로 로그인</button>
+					<button type="submit" onClick={guestHandler}>임시 관리자 권한으로 로그인</button>
 				</GuestForm>
 			</div>
 		</Wrap>
