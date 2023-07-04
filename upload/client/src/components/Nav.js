@@ -3,9 +3,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { ImageContext } from "../context/ImageContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import logo from "./images/logo.svg"
+const GUEST_ID = process.env.REACT_APP_GUEST_ID; //게스트 확인용
 
 const Wrap = styled.div`
 	width:100%;
@@ -136,16 +139,76 @@ const Empty = styled.div`
 `;
 
 const Nav = ({ locate }) => {
+	const navigate = useNavigate();
 	const [me, setMe] = useContext(AuthContext);
 	const [close, setClose] = useState(false);
+  const {images, setImages} = useContext(ImageContext); //업로드된 이미지 목록
+	const [confirm, setConfirm] = useState(false); //로그인 정보에서 권한 확인
+  const [guestImg, setGuestImg] = useState([]); //관리자권한으로 업로드한 이미지 목록
 
 	useEffect(() => { //로그인정보 권한 찾기
 		if(!me) setClose(false);
 		else setClose(true);
 	}, [me])
 
+	/* 임시 관리자 전용 */
+	useEffect(() => {
+		setTimeout(() => {
+      if(me && ((me.userId) === GUEST_ID)) {
+        axios
+          .get("/users/me/images") //이미지 데이터 가져오기
+          .then((result) => setGuestImg(result.data))
+          .catch((err) => {
+            console.error(err);
+          })
+      } else{
+        setGuestImg([]);
+      }
+    }, 100)
+	}, [me, images]);
+  
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록;
+
+		setConfirm(true);
+  };
+  
+  useEffect(() => {
+    if(me && (me.userId === GUEST_ID)) {
+      (() => {
+        window.addEventListener("beforeunload", preventClose);
+      })();
+
+      return () => {
+        window.removeEventListener("beforeunload", preventClose);
+      };
+    }
+  }, [me]);
+
+	const deleteHandler = async () => {
+		guestImg.map(async (id) => {
+      const result = await axios.delete(`/images/${id._id}`);
+      setImages(images.filter(image => image._id !== id._id));
+      navigate("/");
+
+      return result;
+    })
+	}
+
+  if(confirm) deleteHandler();
+	/* //임시 관리자 전용 */
+
 	const logoutHandler = async () => {
 		try {
+			guestImg.map(async (id) => {
+				const result = await axios.delete(`/images/${id._id}`);
+				setImages(images.filter(image => image._id !== id._id));
+				navigate("/");
+	
+				return result;
+			})
+			
 			await axios.patch("/users/logout");
 			
 			setMe();

@@ -31,6 +31,7 @@ const BthCont = styled.div`
 	justify-content:space-between;
 `;
 const ImgCont = styled.div`
+	text-align:center;
 	img{
 		width:50%;
 		max-width:450px;
@@ -178,11 +179,11 @@ const Detail = ({ setLocate }) => {
 	const {images, setImages} = useContext(ImageContext); //이미지정보 가져오기
 	const [error, setError] = useState(false);
 	const [image, setImage] = useState();
-	const [guest, setGuest] = useState();
+	const [guest, setGuest] = useState(); //상품 업로드한 유저의 id
 	const [notice, setNotice] = useState(false); //툴팁
 
   useEffect(() => { //로그인정보 권한 찾기
-		if(me && (me.userId) !== guest) {
+		if(me && GUEST_ID !== guest) {
 			setTimeout(() => {
 				setNotice(true);
 			}, 100)
@@ -272,8 +273,8 @@ const Detail = ({ setLocate }) => {
 				{me && 
 					(((me.userId) === ADMIN_ID) || ((me.userId) === GUEST_ID)) &&
 					<DelBth
-						onClick={(me.userId) === guest ? deleteHandler : null}
-						className={(me.userId) !== guest ? "block" : ""}
+						onClick={(me.userId) === GUEST_ID ? ((me.userId) !== guest ? null : deleteHandler) : deleteHandler}
+						// className={(me.userId) === GUEST_ID && ((me.userId) !== guest ? "block" : "")}
 					>
 						<TbTrash />
 						<TbTrashX />

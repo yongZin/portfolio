@@ -5,6 +5,7 @@ import { ImageContext } from "../context/ImageContext";
 import styled from "styled-components";
 
 const ItemList = styled.div`
+	padding-top:20px;
 	a{
 		width:calc(33% - 6px);
 		display:inline-block;

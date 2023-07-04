@@ -73,6 +73,7 @@ const ImgPreview = styled.div`
 const Boundary = styled.div`
   position:relative;
   div{
+    width:0;
     height:100%;
     line-height:40px;
 		text-align:center;
@@ -119,11 +120,11 @@ const Boundary = styled.div`
   }
 `;
 
-const UploadForm = () => {
+const UploadForm = ({ setNotice }) => {
   const {setImages} = useContext(ImageContext); //이미지 리스트
   const [files, setFiles] = useState(null); //업로드 파일 리스트
   const [previews, setPreviews] = useState([]); //업로드할 파일 미리보기
-  const [percent, setPercent] = useState(0); //업로드 현황
+  const [percent, setPercent] = useState([]); //업로드 현황
   const inputRef = useRef();
 
   const imgHandler = async (e) => {
@@ -134,6 +135,7 @@ const UploadForm = () => {
       toast.error("최대 4개의 이미지만 업로드 가능합니다.");
     } else{
       /* 업로드 프리뷰 */
+      setNotice(false); //업로드 툴팁 닫기
       const imgPreviews = await Promise.all(
         [...imgFiles].map(async (imgFile) => {
           return new Promise((resolve, reject) => {
@@ -149,11 +151,8 @@ const UploadForm = () => {
         })
       );
       /* //업로드 프리뷰 */
-
       setPreviews(imgPreviews);
     }
-
-    
   }
 
   const onSubmitV2 = async (e) => {
@@ -174,7 +173,15 @@ const UploadForm = () => {
 
         formData.append("Content-Type", file.type);
         formData.append("file", file);
-        return axios.post(presigned.url, formData);
+        return axios.post(presigned.url, formData, {
+          onUploadProgress: (e) => {
+            setPercent((prevData) => {
+              const newData = [...prevData];
+              newData[index] = Math.round((100 * e.loaded) / e.total);
+              return newData;
+            });
+          }
+        });
       }))
 
       const res = await axios.post("/images", {
@@ -192,7 +199,7 @@ const UploadForm = () => {
         setPercent(0);
         setPreviews([]);
         inputRef.current.value = null;
-      }, 1500);
+      }, 1000);
     } catch (err) {
       toast.error(err.response.data.message);
       setPercent(0);

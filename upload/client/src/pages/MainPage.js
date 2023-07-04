@@ -166,7 +166,7 @@ const MainPage = ({ setLocate }) =>{
 
       {me && ((me.userId) === ADMIN_ID || (me.userId) === GUEST_ID) &&
         <>
-          <UploadForm />
+          <UploadForm setNotice={setNotice} />
 
           {notice && 
             <Notice>
