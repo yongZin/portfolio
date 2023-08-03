@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import Timer from './Timer';
 import MemoryGame from './MemoryGame';
@@ -166,44 +166,61 @@ const User = styled.div`
 `;
 
 const Content = () => {
+	const [run, setRun] = useState(false);
+	const [finish, setFinish] = useState(false);
+	const [rank, setRank] = useState("00:00");
+
+
+	const recordValue = (record) => setRank(record);
+
+	const resultBtn = () => { //기록저장 확인 버튼(초기화)
+		setRun(false);
+		setFinish(false);
+		setRank("00:00");
+		//게임 리셋기능 넣어야댐
+	}
+
 	return (
 		<Wrap>
 			<div>
 				<Board>
 					<h1>같은그림찾기</h1>
-					<Timer />
-					<MemoryGame />
+					<Timer run={run} setFinish={setFinish} recordValue={recordValue} />
+					<MemoryGame setRun={setRun} setFinish={setFinish} />
 					<ResetBtn />
 				</Board>
 
 				<Rank>
 					<h2>순위표</h2>
 					<ul>
-						<li>1st 닉네임 - 00:00</li>
-						<li>2nd 닉네임 - 00:00</li>
-						<li>3rd 닉네임 - 00:00</li>
-						<li>4th 닉네임 - 00:00</li>
-						<li>5th 닉네임 - 00:00</li>
+						<li>1st 닉네임 - {finish && !run ? rank : "00:00"}</li>
+						<li>2nd 닉네임 - {finish && !run ? rank : "00:00"}</li>
+						<li>3rd 닉네임 - {finish && !run ? rank : "00:00"}</li>
+						<li>4th 닉네임 - {finish && !run ? rank : "00:00"}</li>
+						<li>5th 닉네임 - {finish && !run ? rank : "00:00"}</li>
 					</ul>
 				</Rank>
 
-				{/* <Save>
-					<div>
-						<h3>게임 결과</h3>
-						<User>
-							<ul>
-								<li>이름</li>
-								<li><input type="text"  placeholder="입력해주세요." /></li>
-							</ul>
-							<ul>
-								<li>내 기록</li>
-								<li>00:00</li>
-							</ul>
-						</User>
+				{finish && !run &&
+					// 게임이 종료되면 기록 DB에 저장
+					<Save>
+						<div>
+							<h3>게임 결과</h3>
+							<User>
+								<ul>
+									<li>이름</li>
+									<li><input type="text"  placeholder="입력해주세요." /></li>
+								</ul>
+								<ul>
+									<li>내 기록</li>
+									<li>{rank}</li>
+								</ul>
+							</User>
 
-						<button>확인</button>
-					</div>
-				</Save> */}
+							<button onClick={resultBtn}>확인</button>
+						</div>
+					</Save>
+				}
 			</div>
 		</Wrap>
 	)

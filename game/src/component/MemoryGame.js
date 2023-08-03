@@ -62,7 +62,7 @@ const Card = styled.div`
 	}
 `;
 
-const MemoryGame = () => {
+const MemoryGame = ({ setRun, setFinish }) => {
 	const [randomEmojis, setRandomEmojis] = useState([]);
 	const [open, setOpen] = useState([]);
 	const [match, setMatch] = useState([]);
@@ -96,16 +96,19 @@ const MemoryGame = () => {
 			//모든 카드의 이모지가 동일한 경우
 			setTimeout(() => {
 				if(start) {
+					setRun(false); //시작 props
+					setFinish(true); //종료 props
 					setStart(false);
 				}
 			}, 300);
 		}
-	}, [open, randomEmojis, match, start])
+	}, [open, randomEmojis, match, start, setRun, setFinish])
 
 	const select = (idx) => { //카드 오픈 이벤트
 		if(open.length >= 2) return; //2개의 카드가 열려있으면 이벤트 무시
 		if(open.includes(idx)) return; //이미 선택된 카드면 이벤트 무시
 		if(!start) {
+			setRun(true);
 			setStart(true);
 		}
 

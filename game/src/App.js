@@ -3,7 +3,8 @@ import Content from './component/Content';
 
 function App() {
   return (
-    <Content />
+    <Content>
+    </Content>
   );
 }
 
