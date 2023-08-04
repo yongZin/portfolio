@@ -18,6 +18,7 @@ const Wrap = styled.div`
 		position:absolute;
 		inset:0;
 	}
+
 `;
 const Card = styled.div`
 	width:22.5%;
@@ -39,7 +40,7 @@ const Card = styled.div`
 		cursor:pointer;
 		position:absolute;
 		inset:0;
-		&:after{
+		&::after{
 			content:"";
 			position:absolute;
 			inset:0;
@@ -60,19 +61,29 @@ const Card = styled.div`
 			}
 		}
 	}
+	&:hover{
+		>div{
+			&::after{
+				background-color:#59b18d;
+			}
+		}
+	}
 `;
 
-const MemoryGame = ({ setRun, setFinish }) => {
+const MemoryGame = ({ setRun, setFinish, resetCount }) => {
 	const [randomEmojis, setRandomEmojis] = useState([]);
 	const [open, setOpen] = useState([]);
 	const [match, setMatch] = useState([]);
 	const [start, setStart] = useState(false);
 	
-	useEffect(() => { //랜덤순으로 이모지 카드 만들기
+	useEffect(() => { //랜덤순으로 이모지 카드 만들기(리셋버튼 클릭시 재실행)
 		const emojis = ["😁", "😁", "🤪", "🤪", "🥳", "🥳", "😭", "😭", "🤢", "🤢", "🥵", "🥵", "😱", "😱", "🥶", "🥶"];
     const shuffled = emojis.sort(() => (Math.random() > 0.5 ? 1 : -1));
+		setStart(false);
+		setOpen([]);
+		setMatch([]);
     setRandomEmojis(shuffled);
-  }, []);
+  }, [resetCount]);
 
 	useEffect(() => {
 		if(open.length === 2) { //두장의 카드를 오픈한 경우

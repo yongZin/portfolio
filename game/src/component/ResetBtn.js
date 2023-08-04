@@ -16,9 +16,9 @@ const Btn = styled.button`
 	}
 `;
 
-const ResetBtn = () => {
+const ResetBtn = ({ resetGame }) => {
 	return (
-		<Btn>Reset Game</Btn>
+		<Btn onClick={resetGame}>Reset Game</Btn>
 	)
 }
 

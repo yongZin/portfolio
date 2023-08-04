@@ -26,6 +26,7 @@ const Board = styled.div`
 	border-radius:6px;
 	background-color:#0d614b;
 	position:relative;
+	overflow:hidden;
 	h1{
 		line-height:1.2;
 		font-size:3em;
@@ -33,6 +34,12 @@ const Board = styled.div`
 		color:#fff;
 		letter-spacing:0.1em;
 	}
+`;
+const Notice = styled.div`	
+	line-height:2.5rem;
+	font-size:1.3em;
+	font-weight:bold;
+	color:orange;
 `;
 const Rank = styled.div`
 	width:30%;
@@ -46,7 +53,7 @@ const Rank = styled.div`
 	>h2{
 		text-align:center;
 		font-size:2.2em;
-		font-weight:400;
+		font-weight:bold;
 		color:#fff;
 	}
 	>ul{
@@ -57,12 +64,68 @@ const Rank = styled.div`
 		padding:10px;
 		text-align:center;
 		li{
+			display:flex;
+			justify-content:center;
+			align-items:center;
+			gap:6px;
 			padding:5px;
 			line-height:1.2;
 			font-size:1em;
 			border-radius:6px;
 			color:#fff;
 			background-color:#0c3c2f;
+			&::before{
+				width:30px;
+				display:inline-block;
+				vertical-align:middle;
+				font-weight:bold;
+				text-align:right;
+			}
+			&:nth-child(1){
+				&::before{
+					content:"1st";
+					color:orange;
+				}
+			}
+			&:nth-child(2){
+				&::before{
+					content:"2nd";
+				}
+			}
+			&:nth-child(3){
+				&::before{
+					content:"3rd";
+				}
+			}
+			&:nth-child(4){
+				&::before{
+					content:"4th";
+				}
+			}
+			&:nth-child(5){
+				&::before{
+					content:"5th";
+				}
+			}
+			span{
+				&:first-child{
+					width:80px;
+				}
+				&:last-child{
+					width:60px;
+					position:relative;
+					&::before{
+						content:"";
+						width:8px;
+						height:2px;
+						background-color:#fff;
+						position:absolute;
+						left:-8px;
+						top:50%;
+						transform:translateY(-50%);
+					}
+				}
+			}
 		}
 	}
 `;
@@ -168,16 +231,25 @@ const User = styled.div`
 const Content = () => {
 	const [run, setRun] = useState(false);
 	const [finish, setFinish] = useState(false);
-	const [rank, setRank] = useState("00:00");
+	const [userRecord, setUserRecord] = useState("00:00");
+	const [resetCount, setResetCount] = useState(0);
+	// const [userName, setUserName] = useState();
+	// const [userRecord, setUserRecord] = useState();
+	const [rank, setRank] = useState([
+		{nickname: "네글자", rankRecord: "00:01"},
+		{nickname: "까지만", rankRecord: "00:02"},
+		{nickname: "가능합니", rankRecord: "00:03"},
+		{nickname: "다특수문", rankRecord: "00:04"},
+		{nickname: "자는불가", rankRecord: "00:05"},
+	]);
 
+	const recordValue = (record) => setUserRecord(record);
 
-	const recordValue = (record) => setRank(record);
-
-	const resultBtn = () => { //기록저장 확인 버튼(초기화)
+	const resetGame = () => {
 		setRun(false);
 		setFinish(false);
-		setRank("00:00");
-		//게임 리셋기능 넣어야댐
+		setUserRecord("00:00");
+		setResetCount(prevCount => prevCount + 1); //리셋감지
 	}
 
 	return (
@@ -185,19 +257,24 @@ const Content = () => {
 			<div>
 				<Board>
 					<h1>같은그림찾기</h1>
-					<Timer run={run} setFinish={setFinish} recordValue={recordValue} />
-					<MemoryGame setRun={setRun} setFinish={setFinish} />
-					<ResetBtn />
+					{run || resetCount > 0
+						? <Timer run={run} setFinish={setFinish} recordValue={recordValue} />
+						: <Notice>&#8251; 카드 선택 시 게임시작 &#8251;</Notice>
+					}
+					
+					<MemoryGame setRun={setRun} setFinish={setFinish} resetCount={resetCount} />
+					<ResetBtn resetGame={resetGame} />
 				</Board>
 
 				<Rank>
 					<h2>순위표</h2>
 					<ul>
-						<li>1st 닉네임 - {finish && !run ? rank : "00:00"}</li>
-						<li>2nd 닉네임 - {finish && !run ? rank : "00:00"}</li>
-						<li>3rd 닉네임 - {finish && !run ? rank : "00:00"}</li>
-						<li>4th 닉네임 - {finish && !run ? rank : "00:00"}</li>
-						<li>5th 닉네임 - {finish && !run ? rank : "00:00"}</li>
+						{rank.map(({ nickname, rankRecord }) => (
+							<li key={nickname}>
+								<span>{nickname}</span>
+								<span>{rankRecord}</span>
+							</li>
+						))}
 					</ul>
 				</Rank>
 
@@ -213,11 +290,11 @@ const Content = () => {
 								</ul>
 								<ul>
 									<li>내 기록</li>
-									<li>{rank}</li>
+									<li>{userRecord}</li>
 								</ul>
 							</User>
 
-							<button onClick={resultBtn}>확인</button>
+							<button onClick={resetGame}>확인</button>
 						</div>
 					</Save>
 				}

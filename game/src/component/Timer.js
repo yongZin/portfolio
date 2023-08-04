@@ -3,7 +3,9 @@ import { styled } from 'styled-components';
 
 const Time = styled.div`
 	font-size:2.5em;
-	color:#0a3c2f;
+	font-weight:600;
+	/* color:#0a3c2f; */
+	color:orange;
 `;
 
 const Timer = ({ run, recordValue }) => {
