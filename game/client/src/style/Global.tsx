@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
     border:0;
     outline:none;
   }
+  button{
+    padding:0;
+    border:0;
+  }
 `
 
 export default GlobalStyle

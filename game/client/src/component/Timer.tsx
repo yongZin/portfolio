@@ -5,7 +5,6 @@ import { TimerProps } from '../model/gameType';
 const Time = styled.div`
 	font-size:2.5em;
 	font-weight:600;
-	/* color:#0a3c2f; */
 	color:orange;
 `;
 

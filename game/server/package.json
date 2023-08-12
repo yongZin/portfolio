@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server,.js",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js"
   },
@@ -17,6 +17,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  },
-  "proxy": "http://localhost:4000"
+  }
 }

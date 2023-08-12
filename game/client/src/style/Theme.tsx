@@ -1,15 +1,13 @@
 const size = {
-  mobile: '600px',
-  tablet: '900px',
-  laptop: '1200px',
-  desktop: '1800px',
+  S: '400px',
+  M: '600px',
+  L: '800px',
 }
 
 const theme = {
-  mobile: `(max-width: ${size.mobile})`,
-  tablet: `(max-width: ${size.tablet})`,
-  laptop: `(max-width: ${size.laptop})`,
-  desktop: `(min-width: ${size.desktop})`,
+  S: `(max-width: ${size.S})`,
+  M: `(max-width: ${size.M})`,
+  L: `(max-width: ${size.L})`,
 }
 
 export default theme
