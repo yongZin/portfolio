@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 
 const Btn = styled.button`
 	padding:15px 20px;
-	font-size:1.5rem;
+	font-size:1.5em;
 	text-transform:uppercase;
 	letter-spacing:0.1em;
 	border:0;

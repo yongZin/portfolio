@@ -50,6 +50,14 @@ const Save = styled.div`
 			}
 		}
 	}
+	@media ${props => props.theme.M} {
+		>div{
+			padding:30px 20px;
+			button{
+				margin-top:30px;
+			}
+		}	
+	}
 	@keyframes save {
 		0%{
 			transform:scale(0);
@@ -104,7 +112,7 @@ const User = styled.div`
 			}
 			input{
 				width:100%;
-				font-size:1.5rem;
+				font-size:1em;
 				font-weight:bold;
 				text-align:center;
 				color:#042b21;
@@ -120,6 +128,20 @@ const User = styled.div`
 					&::placeholder{
 						opacity:0;
 					}
+				}
+			}
+		}
+	}
+	@media ${props => props.theme.M} {
+		ul{
+			padding:20px 15px;
+		}
+	}
+	@media ${props => props.theme.S} {
+		ul{
+			li{
+				&:first-child{
+					font-size:1.4em;
 				}
 			}
 		}

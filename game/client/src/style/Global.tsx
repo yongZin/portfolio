@@ -15,6 +15,21 @@ const GlobalStyle = createGlobalStyle`
     padding:0;
     border:0;
   }
+  @media ${props => props.theme.M} {
+		body{
+      font-size:14px;
+    }
+	}
+  @media ${props => props.theme.S} {
+		body{
+      font-size:12px;
+    }
+	}
+  @media ${props => props.theme.XS} {
+		body{
+      font-size:10px;
+    }
+	}
 `
 
 export default GlobalStyle

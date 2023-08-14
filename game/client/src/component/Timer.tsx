@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { TimerProps } from '../model/gameType';
 
 const Time = styled.div`
+	line-height:2.5rem;
 	font-size:2.5em;
 	font-weight:600;
 	color:orange;

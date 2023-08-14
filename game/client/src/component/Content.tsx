@@ -7,9 +7,7 @@ import Record from './Record';
 import axios from 'axios';
 
 const Wrap = styled.div`
-	height:100vh;
 	min-height:100vh;
-	max-height:100vh;
 	padding:0 15px;
 	display:flex;
 	justify-content:center;
@@ -20,8 +18,12 @@ const Wrap = styled.div`
 	position:relative;
 	>div{
 		width:100%;
-		padding:30px 0;
+		height:100%;
+		padding:10px 0;
 		text-align:center;
+	}
+	@media ${props => props.theme.L} {
+		padding-top:55px;
 	}
 `;
 const Menu = styled.button`
@@ -81,6 +83,12 @@ const Board = styled.div`
 		max-width:470px;
 		padding:40px;
 	}
+	@media ${props => props.theme.S} {
+		padding:30px;
+	}
+	@media ${props => props.theme.XS} {
+		padding:20px;
+	}
 `;
 const Notice = styled.div`	
 	line-height:2.5rem;
@@ -116,7 +124,7 @@ const Rank = styled.div`
 			align-items:center;
 			gap:6px;
 			padding:8px 5px 5px;
-			font-size:1em;
+			font-size:1rem;
 			border-radius:6px;
 			color:#fff;
 			background-color:#0c3c2f;
