@@ -230,9 +230,13 @@ const Content: React.FC = () => {
 		fetchRankData();
 	}, []);
 
-	const menuHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const menuHandler = () => {
 		// 메뉴버튼 토글 이벤트
-		setMenu((e) => !e);
+		setMenu((prevMenu) => !prevMenu);
+	}
+	const wrapClickHandler = () => {
+		// 메뉴 오픈시 배경 클릭시 메뉴닫기
+		if(menu) setMenu(false);
 	}
 
 	const resetGame = () => {
@@ -243,7 +247,7 @@ const Content: React.FC = () => {
 	};
 	
 	return (
-		<Wrap>
+		<Wrap onClick={wrapClickHandler}>
 			<div>
 				<Menu onClick={menuHandler} className={menu ? "on" : ""}></Menu>
 
