@@ -200,8 +200,22 @@ const Rank = styled.div`
 		top:0;
 		right:-250px;
 		transition:0.3s;
+		&::before{
+			content:"";
+			width:calc(100% - 250px);
+			height:100vh;
+			backdrop-filter:blur(2px);
+			position:fixed;
+			top:0;
+			right:-100%;
+			z-index:1;
+			transition:0.3s;
+		}
 		&.on{
 			right:0;
+			&::before{
+				right:250px;
+			}
 		}
   }
 `;
