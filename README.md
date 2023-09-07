@@ -9,6 +9,7 @@
    - interscetion Observer를 사용하지 않고 높이 계산을 통한 scroll 이벤트
    #### 사용 기술
    - HTML, SCSS, Javascript
+------------------------
       
 # GAME (memory game)
    #### 정보
