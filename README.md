@@ -1,6 +1,7 @@
-# portfolio
+# 포트폴리오
 
-## frietag
+
+# frietag
    #### 기획
    - 리사이클 패션 브랜드 '프라이탁'을 소개하기 위한 회사소개 페이지 구현
    #### 프로젝트 주요 기능
@@ -9,6 +10,6 @@
    #### 사용 기술
    - HTML, SCSS, Javascript
       
-## MEMORY GAME
+# MEMORY GAME
 
-## IMAGE UPLOAD
+# IMAGE UPLOAD
