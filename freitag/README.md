@@ -1,4 +1,4 @@
-# FREITAG
+# [FREITAG](https://github.com/yongZin/portfolio/tree/main/freitag/scroll)
    #### 🔗 기획
    - '프라이탁' 이라는 브랜드의 기존 소개 페이지를 나만의 스타일로 리뉴얼한 포트폴리오
    #### 🔗 정보
