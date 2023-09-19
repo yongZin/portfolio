@@ -128,12 +128,14 @@ const Empty = styled.div`
   }
 	@media ${props => props.theme.mobile_xs} {
 		&:not(.empty){
-			width:92%;
+			width:180px;
+			right:4%;
+			/* width:92%; //보류
 			left:4%;
 			button{
 				top:-24px;
 				right:-6px;
-			}
+			} */
 		}
   }
 `;

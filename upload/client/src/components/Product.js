@@ -33,6 +33,12 @@ const ItemList = styled.div`
 			width:calc(50% - 6px);
 		}
   }
+	@media ${props => props.theme.mobile_xs} {
+		a{
+			width:100%;
+			margin-right:0;
+		}
+  }
 `;
 
 const Product = () => {
@@ -68,12 +74,7 @@ const Product = () => {
 			/>
 		</Link>
 	));
-	// const aaa = ["111", "222", "333", "444"];
-	// const test = aaa.map((k) => {
-	// 	return { Key: `raw/${k}` };
-	// });
-	// console.log(test);
-
+	
 	return(
 		<ItemList>
 			{item}
