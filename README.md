@@ -28,7 +28,7 @@
    - pointer-event를 활용하여 연속 클릭으로 인해 발생되는 오류 방지
    - 모든 환경에서 이용 가능한 반응형 UI
    #### 사용 기술
-   - REACT, Typescript, Node.js, Express, MongoDB, axios, styled-component
+   - REACT, Typescript, Node.js, Express, MongoDB, axios, styled-component, Redux
    #### 후기
    - 친구들과 내기를 위해 가볍게 만들어진 페이지지만 Typescript를 처음으로 활용해보면서 친절한 오류 메세지에 감탄을 받으면서 많이 사용되는 이유를 알게된 계기
 ------------------------
