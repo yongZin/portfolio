@@ -10,6 +10,8 @@
    - SCSS를 활용한 애니메이션 효과
    - pointer-event를 활용하여 연속 클릭으로 인해 발생되는 오류 방지
    - 모든 환경에서 이용 가능한 반응형 UI
+   - lazy와 Suspense을 사용하여 Code splitting(스켈레톤 로더 구현)
+   - Redux toolkit을 활용한 상태관리
    #### 🔗 사용 기술
    - REACT, Typescript, Node.js, Express, MongoDB, axios, styled-component
    #### 🔗 후기
