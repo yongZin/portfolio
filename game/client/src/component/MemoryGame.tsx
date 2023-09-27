@@ -1,6 +1,10 @@
+// 게임 영역(이모지 카드)
 import React, {useState, useEffect} from 'react';
 import { styled } from 'styled-components';
 import { MemoryGameProps } from '../model/gameType';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { setRun, setFinish } from '../redux/propsSlice';
 
 const Wrap = styled.div`
 	width:100%;
@@ -71,7 +75,9 @@ const Card = styled.div`
 	}
 `;
 
-const MemoryGame: React.FC<MemoryGameProps> = ({ setRun, setFinish, resetCount }) => {
+const MemoryGame: React.FC<MemoryGameProps> = () => {
+	const dispatch = useDispatch();
+	const resetCount = useSelector((state: RootState) => state.props.resetCount);
 	const [randomEmojis, setRandomEmojis] = useState<string[]>([]);
 	const [open, setOpen] = useState<number[]>([]);
 	const [match, setMatch] = useState<number[]>([]);
@@ -108,19 +114,19 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ setRun, setFinish, resetCount }
 			//모든 카드의 이모지가 동일한 경우
 			setTimeout(() => {
 				if(start) {
-					setRun(false); //시작 props
-					setFinish(true); //종료 props
+					dispatch(setRun(false)); //시작 props
+					dispatch(setFinish(true)); //종료 props
 					setStart(false);
 				}
 			}, 300);
 		}
-	}, [open, randomEmojis, match, start, setRun, setFinish])
+	}, [open, randomEmojis, match, start, dispatch])
 
 	const select = (idx: number) => { //카드 오픈 이벤트
 		if(open.length >= 2) return; //2개의 카드가 열려있으면 이벤트 무시
 		if(open.includes(idx)) return; //이미 선택된 카드면 이벤트 무시
 		if(!start) {
-			setRun(true);
+			dispatch(setRun(true));
 			setStart(true);
 		}
 

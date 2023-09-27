@@ -1,5 +1,8 @@
+//게임 리셋 버튼
 import React from 'react';
 import { styled } from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { resetGame } from '../redux/propsSlice';
 
 const Btn = styled.button`
 	padding:15px 20px;
@@ -16,9 +19,11 @@ const Btn = styled.button`
 	}
 `;
 
-const ResetBtn: React.FC<{ resetGame: () => void }> = ({ resetGame }) => {
+const ResetBtn: React.FC = () => {
+	const dispatch = useDispatch();
+
 	return (
-		<Btn onClick={resetGame}>Reset Game</Btn>
+		<Btn onClick={() => { dispatch(resetGame()); }}>Reset Game</Btn>
 	)
 }
 

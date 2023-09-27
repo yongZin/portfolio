@@ -1,6 +1,10 @@
+//게임 타이머(게임 시작시 생성)
 import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { TimerProps } from '../model/gameType';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { setUserRecord } from '../redux/propsSlice';
 
 const Time = styled.div`
 	line-height:2.5rem;
@@ -9,7 +13,9 @@ const Time = styled.div`
 	color:orange;
 `;
 
-const Timer: React.FC<TimerProps> = ({ run, recordValue }) => {
+const Timer: React.FC<TimerProps> = () => {
+	const dispatch = useDispatch();
+	const run = useSelector((state: RootState) => state.props.run);
 	const [seconds, setSeconds] = useState<number>(0);
   const [record, setRecord] = useState<string>("00:00");
 
@@ -28,14 +34,14 @@ const Timer: React.FC<TimerProps> = ({ run, recordValue }) => {
 			const remainingSeconds = seconds % 60; //60초 이후 다시 0부터 초단위 시작(seconds % 60 = 누적시간에서 60을 나누고 남은 값)
 			const progress = formatTime(minutes) + ":" + formatTime(remainingSeconds);
 			setRecord(progress);
-			recordValue(progress);
+			dispatch(setUserRecord(progress));
 		} else if(!run) { //종료시 초기화
 			setSeconds(0);
 			setRecord("00:00");
 		}
 
     return () => clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머 정리
-  }, [seconds, run, recordValue]);
+  }, [seconds, run, dispatch]);
 	
 	return (
 		<Time>

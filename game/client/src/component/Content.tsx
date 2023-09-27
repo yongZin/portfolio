@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+// 같은 그림 찾기 영역
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import Timer from './Timer';
 import MemoryGame from './MemoryGame';
 import ResetBtn from './ResetBtn';
 import Record from './Record';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserRecord, setRank, setMenu } from '../redux/propsSlice';
+import { RootState } from '../redux/store';
 
 const Wrap = styled.div`
 	min-height:100vh;
@@ -221,13 +225,17 @@ const Rank = styled.div`
 `;
 
 const Content: React.FC = () => {
-	const [run, setRun] = useState<boolean>(false);
-	const [finish, setFinish] = useState<boolean>(false);
-	const [menu, setMenu] = useState<boolean>(false);
-	const [userRecord, setUserRecord] = useState<string>("00:00");
-	const [resetCount, setResetCount] = useState<number>(0);
-	const [rank, setRank] = useState<Array<{ userName: string; userRecord: string; }>>([]);
-	const recordValue = (record: string) => setUserRecord(record);
+	const dispatch = useDispatch();
+	const run = useSelector((state: RootState) => state.props.run);
+  const finish = useSelector((state: RootState) => state.props.finish);
+  const menu = useSelector((state: RootState) => state.props.menu);
+  const userRecord = useSelector((state: RootState) => state.props.userRecord);
+  const resetCount = useSelector((state: RootState) => state.props.resetCount);
+  const rank = useSelector((state: RootState) => state.props.rank);
+	const recordValue = (record: string) => {
+    dispatch(setUserRecord(record));
+  };
+
 
 	useEffect(() => {
 		const fetchRankData = async () => {
@@ -235,30 +243,23 @@ const Content: React.FC = () => {
 				const res = await axios.get("/ranks");
 				const rankData = res.data;
 
-				setRank(rankData);
+				dispatch(setRank(rankData));
 			} catch (err) {
 				console.error("랭크 데이터 가져오기 실패:", err);
 			}
 		}
 
 		fetchRankData();
-	}, []);
+	}, [dispatch]);
 
 	const menuHandler = () => {
 		// 메뉴버튼 토글 이벤트
-		setMenu((prevMenu) => !prevMenu);
+		dispatch(setMenu(!menu));
 	}
 	const wrapClickHandler = () => {
 		// 메뉴 오픈시 배경 클릭시 메뉴닫기
-		if(menu) setMenu(false);
+		dispatch(setMenu(false));
 	}
-
-	const resetGame = () => {
-		setRun(false);
-		setFinish(false);
-		setUserRecord("00:00");
-		setResetCount(prevCount => prevCount + 1); //리셋감지
-	};
 	
 	return (
 		<Wrap onClick={wrapClickHandler}>
@@ -268,12 +269,12 @@ const Content: React.FC = () => {
 				<Board>
 					<h1>같은그림찾기</h1>
 					{run || resetCount > 0
-						? <Timer run={run} setFinish={setFinish} recordValue={recordValue} />
+						? <Timer run={run} recordValue={recordValue} />
 						: <Notice>&#8251; 카드 선택 시 게임시작 &#8251;</Notice>
 					}
 					
-					<MemoryGame setRun={setRun} setFinish={setFinish} resetCount={resetCount} />
-					<ResetBtn resetGame={resetGame} />
+					<MemoryGame resetCount={resetCount} />
+					<ResetBtn />
 				</Board>
 
 				<Rank className={menu ? "on" : ""}>
@@ -290,7 +291,7 @@ const Content: React.FC = () => {
 
 				{finish && !run &&
 					// 게임이 종료되면 기록 DB에 저장
-					<Record userRecord={userRecord} setRank={setRank} resetGame={resetGame} />
+					<Record userRecord={userRecord} />
         }
 			</div>
 		</Wrap>

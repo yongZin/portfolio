@@ -1,7 +1,11 @@
+//기록 저장 모달팝업(게임 종료 시)
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components';
 import { RecordProps } from '../model/gameType';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { setRank, resetGame } from '../redux/propsSlice';
 
 const Save = styled.div`
 	width:100%;
@@ -148,7 +152,9 @@ const User = styled.div`
 	}
 `;
 
-const Record: React.FC<RecordProps> = ({ userRecord, setRank, resetGame }) => {
+const Record: React.FC<RecordProps> = () => {
+	const dispatch = useDispatch();
+	const userRecord = useSelector((state: RootState) => state.props.userRecord);
 	const [userName, setUserName] = useState<string>("");
 	const [disableBtn, setDisableBtn] = useState<boolean>(true);
 
@@ -163,11 +169,11 @@ const Record: React.FC<RecordProps> = ({ userRecord, setRank, resetGame }) => {
 				});
 
 				console.log("저장된 기록:", res.data); //보낸 기록 정보
-
 				const updatedRankData = await axios.get("/ranks"); //최신 DB
-				setRank(updatedRankData.data); //기록 갱신
+
+				dispatch(setRank(updatedRankData.data)); //기록 갱신
 				
-				resetGame(); //게임 초기화
+				dispatch(resetGame()); //게임 초기화
 			} catch (err) {
 				console.error(err + "기록 저장 실패");
 			}

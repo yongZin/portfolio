@@ -5,6 +5,9 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './style/Global';
 import Theme from './style/Theme';
 import Loading from './component/Loading';
+import { createStore } from 'redux';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 const App = lazy(() => import('./App')); // App 컴포넌트를 비동기적으로 로드
 const root = ReactDOM.createRoot(
@@ -14,7 +17,9 @@ root.render(
   // <React.StrictMode>
     <ThemeProvider theme={Theme}>
       <Suspense fallback={<Loading />}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </Suspense>
       <GlobalStyle />
     </ThemeProvider>
