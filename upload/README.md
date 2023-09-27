@@ -15,6 +15,7 @@
    - IntersectionObserver를 사용한 infinite scroll
    - react-toastify를 활용한 alert
    - 모든 환경에서 이용 가능한 반응형 UI
+   - lazy와 Suspense을 사용하여 Code splitting(스켈레톤 로더 구현)
    #### 🔗 사용 기술
    - REACT, Node.js, Express, MongoDB, axios, styled-component, react-toastify, uuid, AWS S3
    #### 🔗 후기
