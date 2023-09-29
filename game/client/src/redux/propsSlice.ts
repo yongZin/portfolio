@@ -1,14 +1,5 @@
-import { createSlice, PayloadAction, Dispatch } from "@reduxjs/toolkit";
-import { PropsState } from '../model/gameType';
-
-const initialState: PropsState = { // 초기 상태 정의
-  run: false,
-  finish: false,
-  menu: false,
-  userRecord: "00:00",
-  resetCount: 0,
-  rank: [],
-};
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { initialState } from '../model/gameType';
 
 const propsSlice = createSlice({
   name: 'props',

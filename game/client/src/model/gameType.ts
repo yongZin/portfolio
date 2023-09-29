@@ -1,8 +1,3 @@
-export interface RankItem {
-  userName: string;
-  userRecord: string;
-}
-
 export interface MemoryGameProps {
   resetCount: number;
 }
@@ -24,3 +19,12 @@ export interface PropsState {
   resetCount: number;
   rank: Array<{ userName: string; userRecord: string }>;
 }
+
+export const initialState: PropsState = { // PropsState 기본값
+  run: false,
+  finish: false,
+  menu: false,
+  userRecord: "00:00",
+  resetCount: 0,
+  rank: [],
+};
