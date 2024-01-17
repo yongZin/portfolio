@@ -36,63 +36,6 @@ imageRouter.post("/presigned", async (req, res) => {
   }
 });
 
-// imageRouter.post("/", upload.array("image", 4), async (req, res) => {
-// 	// DB저장, 유저정보 저장
-// 	try {
-// 		if(!req.user) throw new Error("권한이 없습니다."); //로그인 유무 확인
-		
-// 		const { images } = req.body;
-// 		const firstImg = images[0].imageKey;
-		
-// 		// const imageDocs = await Promise.all(
-// 		// 	images.map(
-// 		// 		(image) => new Image({
-// 		// 			user: {
-// 		// 				_id: req.user.id,
-// 		// 				name: req.user.name,
-// 		// 				username: req.user.username,
-// 		// 			},
-// 		// 			key: firstImg, //업로드한 첫번쨰 이미지
-// 		// 			details: {
-// 		// 				key: image.imageKey,
-// 		// 				filename: image.imageKey,
-// 		// 				originalFileName: image.originalname,
-// 		// 			}
-// 		// 			// details: image.map((file) => ({
-// 		// 			// 	key: file,
-// 		// 			// 	filename: file,
-// 		// 			// 	originalFileName: file.originalname,
-// 		// 			// }))
-// 		// 		})
-// 		// 	)
-// 		// );
-// 		const test = req.files.map((file) => ({
-// 			key: file.key.replace("raw/", ""),
-// 			filename: file.key.replace("raw/", ""),
-// 			originalFileName: file.originalname,
-// 		}));
-
-// 		const imageDocs = await Promise.all(
-// 			test.map((image) =>
-// 				new Image({
-// 					user: {
-// 						_id: req.user.id,
-// 						name: req.user.name,
-// 						username: req.user.username,
-// 					},
-// 					key: firstImg, // 업로드한 첫 번째 이미지
-// 					details: [image],
-// 				}).save()
-// 			)
-// 		);
-
-// 		res.json(imageDocs);
-// 	} catch (err) {
-// 		console.log(err);
-// 		res.status(400).json({ message: err.message });
-// 	}
-// });
-
 imageRouter.post("/", upload.array("image", 4), async (req, res) => {
 	// DB저장, 유저정보 저장
 	try {
@@ -101,7 +44,7 @@ imageRouter.post("/", upload.array("image", 4), async (req, res) => {
 		// if(req.user.username !== ADMIN && req.user.id !== ADMIN_ID)
 		// 	throw new Error("권한이 없습니다."); //관리자만 업로드 가능
 		
-		const { images } = req.body;
+		const { images, productInfo } = req.body;
 		
 		const image = await new Image({
 			user: {
@@ -122,6 +65,31 @@ imageRouter.post("/", upload.array("image", 4), async (req, res) => {
 		console.log(err);
 		res.status(400).json({ message: err.message });
 	}
+});
+
+app.post("/upload", upload.array("upload"), async (req, res) => {
+	// const product = await new Product({
+	// 	key: req.file.filename,
+	// 	originalFileName: req.file.originalname
+	// }).save();
+
+	const { name, price, mainImages, details, type, material, color } = req.body;
+
+	const product = await new Product({
+		name: name,
+		price: price,
+		mainImages: mainImages.map((file) => ({
+			key: file.key,
+			filename: file.filename,
+			originalname: file.originalname,
+		})),
+		details: details.join("\n"),
+		type: type,
+		material: material,
+		color: color,
+	}).save();
+
+	res.json(product);
 });
 
 imageRouter.get("/", async (req, res) => {// DB에서 이미지 조회

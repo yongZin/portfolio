@@ -20,11 +20,20 @@ const storage = multerS3({
     cb(null, `raw/${uuid()}.${mime.extension(file.mimetype)}`),
 });
 
+// const storage = multerS3({ //클라이언트에서 uuid를 사용한 경우
+//   s3,
+//   bucket: "yongzin3",
+//   key: (req, file, cb) => {
+//     cb(null, `raw/${file.filename}`);
+//   },
+// });
+
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     console.log("file type: ", file);
-    if (["image/png", "image/jpeg"].includes(file.mimetype)) cb(null, true);
+    // if (["image/png", "image/jpeg"].includes(file.mimetype)) cb(null, true); //png, jpeg만 업로드 허용
+    if (file.mimetype.startsWith("image/")) callback(null, true); //모든 이미지파일 업로드 허용
     else cb(new Error("invalid file type."), false);
   },
   limits: {

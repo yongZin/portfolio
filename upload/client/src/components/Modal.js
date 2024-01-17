@@ -30,12 +30,12 @@ const Popup = styled.div`
     &::-webkit-scrollbar{
       width:12px;
       background-color:transparent;
-    }
-    &::-webkit-scrollbar-thumb{
-      border-radius:10px;
-      border:3px solid transparent;
-      background-clip:padding-box;
-      background-color:#fff;
+      &-thumb{
+        border-radius:10px;
+        border:3px solid transparent;
+        background-clip:padding-box;
+        background-color:#fff;
+      }
     }
   }
   @keyframes fade {
