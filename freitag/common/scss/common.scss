@@ -194,9 +194,23 @@
     padding:40px;
     &__card{
       width:100%;
+      &--tit{
+        font-size:20px;
+      }
       &--info{
         width:100%;
         max-width:247px;
+        font-size:15px;
+      }
+    }
+  }
+}
+
+@include respond-to(sm) {
+  .landing{
+    &__card{
+      &--info{
+        font-size:14px;
       }
     }
   }
