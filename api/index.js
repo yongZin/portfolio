@@ -13,7 +13,11 @@ mongoose.connect(MONGO_URI);
 
 app.use(express.json());
 app.use(authentication);
-app.use("/api/uplod", productRouter);
+app.use("/api/upload", productRouter);
 app.use("/api/users", userRouter);
+
+app.listen(MY_APP_PORT, () => {
+  console.log(`Server port ${MY_APP_PORT}`);
+});
 
 module.exports = app;

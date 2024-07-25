@@ -48,7 +48,7 @@ export const ProductProvider = (prop) => {
 		setUploadLoad(true);
 
 		axios
-			.get(`/api/upload`, {
+			.get("/api/upload", {
 				params: {
 					sort: sortFilterValue,
 					color: colorFilterValue,
