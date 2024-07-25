@@ -1,6 +1,6 @@
 //AWS 인증
 require("dotenv").config();
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client } = require("@aws-sdk/client-s3");
 const { createPresignedPost } = require("@aws-sdk/s3-presigned-post");
 const { MY_APP_AWS_ACCESS_KEY, MY_APP_AWS_SECRET_KEY} = process.env;
 
